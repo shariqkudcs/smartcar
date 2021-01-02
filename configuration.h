@@ -1,12 +1,24 @@
-/*Declare L298N Dual H-Bridge Motor Controller directly since there is not a library to load.*/
-//Define L298N Dual H-Bridge Motor Controller Pins
-#define dir1PinL  2    //Motor direction
-#define dir2PinL  4    //Motor direction
-#define speedPinL 6    // Needs to be a PWM pin to be able to control motor speed
+/*Assumption:The total swing of the servo from min to max is 180 degrees*/
+#define HEAD_FRONT  277 //90 degree
+#define HEAD_180 HEAD_MAX //Full 180 degrees
+#define HEAD_120 HEAD_FRONT + 120 //135 degrees
+#define HEAD_40 HEAD_MIN + 102 //45 degrees infact
+#define HEAD_0 HEAD_MIN //Zero degree
+#define HEAD_MAX 482
+#define HEAD_MIN  72
+#define HEAD_SERVO_NUM 0
 
-#define dir1PinR  7    //Motor direction
-#define dir2PinR  8   //Motor direction
-#define speedPinR 5    // Needs to be a PWM pin to be able to control motor speed
+#define PWMA 9 // Needs to be a PWM pin to be able to control motor speed
+#define DIRA 8 //Motor direction
+#define PWMB 6 // Needs to be a PWM pin to be able to control motor speed
+#define DIRB 7 //Motor direction
+
+//Should you keep PWMA and PWMB for speed????? since it is from chinese code
+#define MOTOR_GO_FORWARD  {digitalWrite(DIRA,LOW);analogWrite(PWMA,250);digitalWrite(DIRB,LOW);analogWrite(PWMB,250);}                             
+#define MOTOR_GO_BACK   {digitalWrite(DIRA,HIGH);analogWrite(PWMA,250);digitalWrite(DIRB,HIGH);analogWrite(PWMB,250);}
+#define MOTOR_GO_LEFT   {digitalWrite(DIRA,LOW);analogWrite(PWMA,250);digitalWrite(DIRB,HIGH);analogWrite(PWMB,250);}
+#define MOTOR_GO_RIGHT    {digitalWrite(DIRA,HIGH);analogWrite(PWMA,250);digitalWrite(DIRB,LOW);analogWrite(PWMB,250);}
+#define MOTOR_GO_STOP   {digitalWrite(DIRA,LOW);analogWrite(PWMA,0);digitalWrite(DIRB,LOW);analogWrite(PWMB,0);}
 
 /*From left to right, connect to D3,A1-A3 ,D10*/
 #define LFSensor_0  3
@@ -15,7 +27,7 @@
 #define LFSensor_3 A3
 #define LFSensor_4 10
 
-#define SERVO_PIN     9  //servo connect to D9
+
 
 #define Echo_PIN   11 // Ultrasonic Echo pin connect to D11
 #define Trig_PIN   12  // Ultrasonic Trig pin connect to D12
@@ -65,4 +77,3 @@ enum DN
   STOP_STOP,
   DEF
 }Drive_Num=DEF;
-

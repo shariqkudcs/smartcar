@@ -26,7 +26,7 @@ int obstacle_status =B100000;
     alarm();
     obstacle_status  =obstacle_status | B100;
     }
-  head.write(120);
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_120);
   delay(100);
   ldiagonalscanval = watch();
   if(ldiagonalscanval<distancelimit){
@@ -34,7 +34,7 @@ int obstacle_status =B100000;
     alarm();
      obstacle_status  =obstacle_status | B1000;
     }
-  head.write(170); //Didn't use 180 degrees because my servo is not able to take this angle
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_180);
   delay(300);
   leftscanval = watch();
   if(leftscanval<sidedistancelimit){
@@ -42,7 +42,7 @@ int obstacle_status =B100000;
     alarm();
      obstacle_status  =obstacle_status | B10000;
     }
-  head.write(120);
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_120);
   delay(100);
   ldiagonalscanval = watch();
   if(ldiagonalscanval<distancelimit){
@@ -50,7 +50,7 @@ int obstacle_status =B100000;
     alarm();
     obstacle_status  =obstacle_status | B1000;
     }
-  head.write(90); //use 90 degrees if you are moving your servo through the whole 180 degrees
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_FRONT); //use 90 degrees if you are moving your servo through the whole 180 degrees
   delay(100);
   centerscanval = watch();
   if(centerscanval<distancelimit){
@@ -58,7 +58,7 @@ int obstacle_status =B100000;
     alarm();
     obstacle_status  =obstacle_status | B100;
     }
-  head.write(40);
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_40);
   delay(100);
   rdiagonalscanval = watch();
   if(rdiagonalscanval<distancelimit){
@@ -66,7 +66,7 @@ int obstacle_status =B100000;
     alarm();
     obstacle_status  =obstacle_status | B10;
     }
-  head.write(0);
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_0);
   delay(100);
   rightscanval = watch();
   if(rightscanval<sidedistancelimit){
@@ -74,7 +74,7 @@ int obstacle_status =B100000;
     alarm();
     obstacle_status  =obstacle_status | 1;
     }
-  head.write(90); //Finish looking around (look forward again)
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_FRONT); //Finish looking around (look forward again)
   delay(300);
    String obstacle_str= String(obstacle_status,BIN);
   obstacle_str= obstacle_str.substring(1,6);
@@ -122,4 +122,3 @@ void auto_avoidance(){
     thereis=0;
   }
 }
-

@@ -1,49 +1,36 @@
-#include <Servo.h>
+#include "ServoDriver.h"
 #include "configuration.h"
-Servo head;
+
+
+ServoDriver head = ServoDriver();
 
 /*motor control*/
 void go_Advance(void)  //Forward
 {
-  digitalWrite(dir1PinL, HIGH);
-  digitalWrite(dir2PinL,LOW);
-  digitalWrite(dir1PinR,HIGH);
-  digitalWrite(dir2PinR,LOW);
+MOTOR_GO_FORWARD
 }
 void go_Left()  //Turn left
 {
-  digitalWrite(dir1PinL, HIGH);
-  digitalWrite(dir2PinL,LOW);
-  digitalWrite(dir1PinR,LOW);
-  digitalWrite(dir2PinR,HIGH);
+MOTOR_GO_LEFT
 }
 void go_Right()  //Turn right
 {
-  digitalWrite(dir1PinL, LOW);
-  digitalWrite(dir2PinL,HIGH);
-  digitalWrite(dir1PinR,HIGH);
-  digitalWrite(dir2PinR,LOW);
+MOTOR_GO_RIGHT
 }
 void go_Back()  //Reverse
 {
-  digitalWrite(dir1PinL, LOW);
-  digitalWrite(dir2PinL,HIGH);
-  digitalWrite(dir1PinR,LOW);
-  digitalWrite(dir2PinR,HIGH);
+MOTOR_GO_BACK
 }
 void stop_Stop()    //Stop
 {
-  digitalWrite(dir1PinL, LOW);
-  digitalWrite(dir2PinL,LOW);
-  digitalWrite(dir1PinR,LOW);
-  digitalWrite(dir2PinR,LOW);
+MOTOR_GO_STOP
 }
 
 /*set motor speed */
 void set_Motorspeed(int speed_L,int speed_R)
 {
-  analogWrite(speedPinL,speed_L); 
-  analogWrite(speedPinR,speed_R);   
+  analogWrite(PWMB,speed_L);
+  analogWrite(PWMA,speed_R);  
 }
 void buzz_ON()   //open buzzer
 {
@@ -185,12 +172,10 @@ void do_Drive_Tick()
 
 void setup()
 {
-  pinMode(dir1PinL, OUTPUT); 
-  pinMode(dir2PinL, OUTPUT); 
-  pinMode(speedPinL, OUTPUT);  
-  pinMode(dir1PinR, OUTPUT);
-  pinMode(dir2PinR, OUTPUT); 
-  pinMode(speedPinR, OUTPUT); 
+  pinMode(PWMA, OUTPUT);
+  pinMode(DIRA, OUTPUT);
+  pinMode(PWMB, OUTPUT);
+  pinMode(DIRB, OUTPUT); 
   stop_Stop();
   
   pinMode(Trig_PIN, OUTPUT); 
@@ -206,8 +191,9 @@ void setup()
   pinMode(LFSensor_4,INPUT); 
   Serial.begin(9600);//In order to fit the Bluetooth module's default baud rate, only 9600
   digitalWrite(Trig_PIN,LOW);
-  head.attach(SERVO_PIN); //servo
-  head.write(90);
+  head.begin();
+  head.setPWMFreq(50);  // servos run at 50 Hz
+  head.setPWM(HEAD_SERVO_NUM,0,HEAD_FRONT);
 }
 
 void loop()
@@ -215,6 +201,3 @@ void loop()
   do_Uart_Tick();
   do_Drive_Tick();
 }
-
-
-
